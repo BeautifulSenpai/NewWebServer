@@ -1,29 +1,18 @@
-CREATE DATABASE lectures;
+CREATE DATABASE IF NOT EXISTS control;
 
-USE lectures;
+USE control;
 
-CREATE TABLE lectures (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    INDEX (email)
 );
 
-CREATE TABLE teachers (
+CREATE TABLE IF NOT EXISTS licenses (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    login VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE students (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE student_requests (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id INT,
-    teacher_id INT,
-    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-    FOREIGN KEY (student_id) REFERENCES students (id),
-    FOREIGN KEY (teacher_id) REFERENCES teachers (id)
+    email VARCHAR(255) NOT NULL,
+    license_key VARCHAR(255) DEFAULT 'default_value',
+    FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
 );
